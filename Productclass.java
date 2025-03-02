@@ -7,6 +7,10 @@ class Product
     private int price;
     private int quantity;
     static int total_quantity = 0;
+    static int sell_items = 0;
+    static int sale_amount = 0;
+    static int buy_quantity = 0;
+    static int buy_amount = 0;
 
     Product(){
         id = 0;
@@ -33,9 +37,14 @@ class Product
         {
             quantity--;
             total_quantity--;
+            sell_items = sell_items + 1;
+            sale_amount = sale_amount + price;
+            buy_quantity += 1;
+            buy_amount += price;
+            System.out.println("Successfully buy the product : " + pname);
         }
         else
-            System.out.println("Out of stock");
+            System.out.println("Out of stock : " + pname);
     }
     void productDetails()
     {
@@ -45,115 +54,200 @@ class Product
         System.out.println("Product quantity : " + quantity);
         System.out.println("Total store quantity : " + total_quantity);
     }
+    void checkSale()
+    {
+        System.out.println("Sold Items : " + sell_items);
+        System.out.println("Total Sale amount : " + sale_amount);
+    }
+    void buyDetails()
+    {
+        System.out.println();
+        System.out.println("* Buying details *");
+        System.out.println("No of items buy : " + buy_quantity);
+        System.out.println("Total amount : " + buy_amount);
+    }
+    void clearDetails()
+    {
+        buy_amount = 0;
+        buy_quantity = 0;
+    }
+
     int getId()
     {
         return id;
     }
     }
 
-public class Productclass {
-    public static void main(String[] args) {
+public class Productclass
+{
+    public static void main(String[] args)
+    {
         Product P1 = new Product();
         Product P2 = new Product();
         Product P3 = new Product();
         Product P4 = new Product();
         Product P5 = new Product();
-        int counter ;
+        int counter;
         char ch;
         int yes;
+        int login = 0;
         Scanner s = new Scanner(System.in);
-        System.out.println("\t ***Choose the process***\n");
-        System.out.println("\t1 : Add product\n\t2 : Sell Product\n\t3 : View Product details\n\t0 : Exit");
-        int p = s.nextInt();
-        while(p!=0)
+
+        System.out.println("Are you an admin or a user?\nAdmin : 1\nUser : 2\nExit : 0");
+        login = s.nextInt();
+
+        while (login != 0)
         {
-                counter = 1;
-                ch = 'Y';
-            switch (p) {
-                case 1:
-                    while (ch == 'Y') {
-                        if (counter == 1) {
-                            P1.addProduct();
-                            counter++;
-                        } else if (counter == 2) {
-                            P2.addProduct();
-                            counter++;
-                        } else if (counter == 3) {
-                            P3.addProduct();
-                            counter++;
-                        } else if (counter == 4) {
-                            P4.addProduct();
-                            counter++;
-                        } else if (counter == 5) {
-                            P5.addProduct();
-                            counter++;
-                        } else {
-                            System.out.println("Limit exceed");
-                            break;
-                        }
+                if (login == 1) {
+                    System.out.println("Enter login password");
+                    int password = s.nextInt();
 
-                        System.out.println("Do you want to add other product?Enter 'Y'");
-                        ch = s.next().charAt(0);
+                    if (password == 12345) {
+                        System.out.println();
+                        System.out.println("\t ***Choose the process***\n");
+                        System.out.println("\t1 : Add product\n\t2 : View Product details\n\t3 : Check today's Sale\n\t0 : Main Menu");
+                        int p = s.nextInt();
+                        while (p != 0) {
+                            counter = 1;
+                            ch = 'Y';
+                            switch (p) {
+                                case 1:
+                                    while (ch == 'Y') {
+                                        if (counter == 1) {
+                                            P1.addProduct();
+                                            counter++;
+                                        } else if (counter == 2) {
+                                            P2.addProduct();
+                                            counter++;
+                                        } else if (counter == 3) {
+                                            P3.addProduct();
+                                            counter++;
+                                        } else if (counter == 4) {
+                                            P4.addProduct();
+                                            counter++;
+                                        } else if (counter == 5) {
+                                            P5.addProduct();
+                                            counter++;
+                                        } else {
+                                            System.out.println("Limit exceed");
+                                            break;
+                                        }
+                                        System.out.println();
+                                        System.out.println("Do you want to add other product?Enter 'Y'");
+                                        ch = s.next().charAt(0);
+                                    }
+                                    break;
+
+                                case 2:
+                                    System.out.println("*** Product 1 ***");
+                                    P1.productDetails();
+                                    System.out.println();
+                                    System.out.println("*** Product 2 ***");
+                                    P2.productDetails();
+                                    System.out.println();
+                                    System.out.println("*** Product 3 ***");
+                                    P3.productDetails();
+                                    System.out.println();
+                                    System.out.println("*** Product 4 ***");
+                                    P4.productDetails();
+                                    System.out.println();
+                                    System.out.println("*** Product 5 ***");
+                                    P5.productDetails();
+                                    break;
+
+                                case 3:
+                                    System.out.println();
+                                    System.out.println("* Following are the details of today's sale *");
+                                    P5.checkSale();
+                                    break;
+                            }
+                            System.out.println();
+                            System.out.println("Do you want to perform another process?\nYes : 1\nExit : 0");
+                            yes = s.nextInt();
+                            if (yes == 1) {
+                                System.out.println();
+                                System.out.println("\t ***Choose the process***\n");
+                                System.out.println("\t1 : Add product\n\t2 : View Product details\n\t3 : Check today's Sale\n\t0 : Main Menu");
+                                p = s.nextInt();
+                            } else
+                                p = yes;
+                        }
+                    } else {
+                        System.out.println("Incorrect Password");
+
                     }
-                    break;
+                } else if (login == 2) {
+                    System.out.println();
+                    System.out.println("\t ***Choose the process***\n");
+                    System.out.println("\t1 : Buy Product\n\t2 : View Product details\n\t0 : Main Menu");
+                    int p = s.nextInt();
+                    while (p != 0) {
+                        counter = 1;
+                        ch = 'Y';
+                        switch (p) {
+                            case 1:
+                                while (ch == 'Y') {
+                                    System.out.println("Enter the product Id");
+                                    counter = s.nextInt();
+                                    if (counter == P1.getId()) {
+                                        P1.saleProduct();
 
-                case 2:
-                    while (ch == 'Y') {
-                        System.out.println("Enter the product Id");
-                        counter = s.nextInt();
-                        if (counter == P1.getId()) {
-                            P1.saleProduct();
-                        } else if (counter == P2.getId()) {
-                            P2.saleProduct();
-                        } else if (counter == P3.getId()) {
-                            P3.saleProduct();
-                        } else if (counter == P4.getId()) {
-                            P4.saleProduct();
-                        } else if (counter == P5.getId()) {
-                            P5.saleProduct();
+                                    } else if (counter == P2.getId()) {
+                                        P2.saleProduct();
+                                    } else if (counter == P3.getId()) {
+                                        P3.saleProduct();
+                                    } else if (counter == P4.getId()) {
+                                        P4.saleProduct();
+                                    } else if (counter == P5.getId()) {
+                                        P5.saleProduct();
+                                    } else {
+                                        System.out.println("Product Id is wrong");
+                                        break;
+                                    }
+                                    System.out.println();
+                                    System.out.println("Do you want to buy another product?Enter 'Y'");
+                                    ch = s.next().charAt(0);
+                                }
+                                break;
+
+                            case 2:
+                                System.out.println("*** Product 1 ***");
+                                P1.productDetails();
+                                System.out.println();
+                                System.out.println("*** Product 2 ***");
+                                P2.productDetails();
+                                System.out.println();
+                                System.out.println("*** Product 3 ***");
+                                P3.productDetails();
+                                System.out.println();
+                                System.out.println("*** Product 4 ***");
+                                P4.productDetails();
+                                System.out.println();
+                                System.out.println("*** Product 5 ***");
+                                P5.productDetails();
+                                break;
+                        }
+                        System.out.println();
+                        System.out.println("Do you want to perform another process?\nYes : 1\nProceed to bill : 0");
+                        yes = s.nextInt();
+                        if (yes == 1) {
+                            System.out.println();
+                            System.out.println("\t ***Choose the process***\n");
+                            System.out.println("\t1 : Buy Product\n\t2 : View Product details\n\t0 : Main Menu");
+                            p = s.nextInt();
                         } else {
-                            System.out.println("Product Id is wrong");
-                            break;
+                            p = yes;
+                            P5.buyDetails();
+                            P5.clearDetails();;
                         }
 
-                        System.out.println("Do you want to sell other product?Enter 'Y'");
-                        ch = s.next().charAt(0);
                     }
-                    break;
-
-                case 3:
-                    while (ch == 'Y') {
-                        System.out.println("Enter the product Id");
-                        counter = s.nextInt();
-                        if (counter == P1.getId()) {
-                            P1.productDetails();
-                        } else if (counter == P2.getId()) {
-                            P2.productDetails();
-                        } else if (counter == P3.getId()) {
-                            P3.productDetails();
-                        } else if (counter == P4.getId()) {
-                            P4.productDetails();
-                        } else if (counter == P5.getId()) {
-                            P5.productDetails();
-                        } else {
-                            System.out.println("Product Id is wrong");
-                            break;
-                        }
-                        System.out.println("Do you want to view another product details?Enter 'Y'");
-                        ch = s.next().charAt(0);
-                         }
-                         break;
+                } else {
+                    System.out.println("Incorrect input");
                 }
-                System.out.println("Do you want to perform another process?\nYes : 1\nExit : 0");
-                yes = s.nextInt();
-                if(yes==1)
-                {
-                System.out.println("\t\t ***Choose the process***");
-                System.out.println("\tAdd product : 1 \n\tSell Product : 2\n\tView Product details : 3\n\tExit : 0");
-                p = s.nextInt();
-                }
-                else
-                    p = yes;
+                System.out.println();
+                System.out.println("Are you an admin or a user?\nAdmin : 1\nUser : 2\nExit : 0");
+                login = s.nextInt();
         }
     }
 }
